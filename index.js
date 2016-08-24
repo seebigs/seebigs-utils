@@ -70,8 +70,9 @@ module.exports = (function () {
         }
     }
 
-    function listFiles (dir, list) {
-        list = list || [];
+    function listFiles (dir, ext, _list) {
+        ext = ext || [];
+        _list = _list || [];
 
         var dirs = [];
         var files = [];
@@ -86,14 +87,16 @@ module.exports = (function () {
         });
 
         each(dirs, function (d) {
-            listFiles(d, list);
+            listFiles(d, ext, _list);
         });
 
         each(files, function (f) {
-            list.push(f);
+            if (!ext.length || ext.indexOf(f.split('.').pop()) !== -1) {
+                _list.push(f);
+            }
         });
 
-        return list;
+        return _list;
     }
 
     function readFile (filepath, onError) {
