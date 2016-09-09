@@ -99,6 +99,19 @@ module.exports = (function () {
         return _list;
     }
 
+    function pathExists (filepath) {
+        try {
+            fs.statSync(filepath).isDirectory();
+            return true;
+
+        } catch (e) {
+            if (e.code !== 'ENOENT') {
+                throw e;
+            }
+            return false;
+        }
+    }
+
     function readFile (filepath, onError) {
         try {
             return fs.readFileSync(filepath, 'utf8');
@@ -154,6 +167,7 @@ module.exports = (function () {
         each: each,
         getPropertyIfPresent: getPropertyIfPresent,
         listFiles: listFiles,
+        pathExists: pathExists,
         readFile: readFile,
         template: template,
         writeFile: writeFile
