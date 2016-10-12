@@ -12,9 +12,9 @@ module.exports = (function () {
 
     var hasProp = Object.prototype.hasOwnProperty;
 
-    function cleanDir (path, onError) {
+    function cleanDir (pathname, onError) {
         try {
-            del.sync(path);
+            del.sync(pathname);
 
         } catch (err) {
             typeof onError === 'function' ? onError(err) : console.log(err);
@@ -51,21 +51,21 @@ module.exports = (function () {
         return typeof thing !== 'undefined' && thing !== '' && thing !== null;
     }
 
-    function getPropertyIfPresent (object, path, rest) {
+    function getPropertyIfPresent (object, pathname, rest) {
         if (!object) { return void 0; }
 
-        if (path.indexOf('.') !== -1) {
-            path = path.split('.');
-            return getPropertyIfPresent(object, path.shift(), path);
+        if (pathname.indexOf('.') !== -1) {
+            pathname = pathname.split('.');
+            return getPropertyIfPresent(object, pathname.shift(), pathname);
 
         } else {
             if(!rest || rest.length === 0) {
-                return object[path];
+                return object[pathname];
             } else {
-                if(!object.hasOwnProperty(path) || !exists(object[path])) {
+                if(!object.hasOwnProperty(pathname) || !exists(object[pathname])) {
                     return void 0;
                 }
-                return getPropertyIfPresent(object[path], rest.shift(), rest);
+                return getPropertyIfPresent(object[pathname], rest.shift(), rest);
             }
         }
     }
@@ -78,11 +78,11 @@ module.exports = (function () {
         var files = [];
 
         each(fs.readdirSync(dir), function (item) {
-            var path = dir + '/' + item;
-            if (fs.statSync(path).isDirectory()) {
-                dirs.push(path);
+            var pathname = dir + '/' + item;
+            if (fs.statSync(pathname).isDirectory()) {
+                dirs.push(pathname);
             } else {
-                files.push(path);
+                files.push(pathname);
             }
         });
 
@@ -118,6 +118,7 @@ module.exports = (function () {
 
         } catch (err) {
             typeof onError === 'function' ? onError(err) : console.log(err);
+            return '';
         }
     }
 
