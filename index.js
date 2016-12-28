@@ -71,6 +71,7 @@ module.exports = (function () {
     }
 
     function listFiles (dir, ext, _list) {
+        dir = path.resolve(dir);
         ext = ext || [];
         _list = _list || [];
 
@@ -138,6 +139,8 @@ module.exports = (function () {
     }
 
     function writeFile (dest, contents, onSuccess, onError) {
+        dest = path.resolve(dest);
+
         if (typeof onSuccess !== 'function') {
             onSuccess = function () {};
         }
@@ -150,12 +153,17 @@ module.exports = (function () {
             if (err) {
                 onError(err);
             } else {
-                // write dest file
                 fs.writeFile(dest, contents, function (err) {
                     if (err) {
                         onError(err);
                     } else {
-                        onSuccess(contents);
+                        fs.stat(dest, function (err, stats) {
+                            onSuccess({
+                                contents: contents,
+                                path: dest,
+                                size: stats.size
+                            });
+                        });
                     }
                 });
             }
