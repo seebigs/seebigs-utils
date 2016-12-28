@@ -4,7 +4,7 @@
   "description": "Essential utils for Node.js projects",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./test/automated"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "dependencies": {
     "del": "^2.2.2",
     "mkdirp": "^0.5.1"
+  },
+  "devDependencies": {
+    "feather-test": "^1.0.0"
   }
 }
