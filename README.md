@@ -1,5 +1,6 @@
 # seebigs-utils
 
+* args
 * cleanDir
 * debug
 * each
