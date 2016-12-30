@@ -12,6 +12,25 @@ module.exports = (function () {
 
     var hasProp = Object.prototype.hasOwnProperty;
 
+    function args () {
+        var a = {};
+        var rawArgs = process.argv.slice(2);
+        var npmConfigArgs = process.env.npm_config_argv;
+        if (npmConfigArgs) {
+            rawArgs = rawArgs.concat(JSON.parse(npmConfigArgs).original);
+        }
+
+        rawArgs.forEach(function (raw) {
+            var pair = raw.split('=');
+            var argName = pair[0].split('--')[1];
+            if (argName) {
+                a[argName] = pair[1] || true;
+            }
+        });
+
+        return a;
+    }
+
     function cleanDir (pathname, onError) {
         try {
             del.sync(pathname);
@@ -171,6 +190,7 @@ module.exports = (function () {
     }
 
     return {
+        args: args,
         cleanDir: cleanDir,
         debug: debug,
         each: each,
