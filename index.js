@@ -13,7 +13,7 @@ module.exports = (function () {
     var hasProp = Object.prototype.hasOwnProperty;
 
     function args () {
-        var a = {};
+        var a = { _: [] };
         var rawArgs = process.argv.slice(2);
         var npmConfigArgs = process.env.npm_config_argv;
         if (npmConfigArgs) {
@@ -22,9 +22,13 @@ module.exports = (function () {
 
         rawArgs.forEach(function (raw) {
             var pair = raw.split('=');
-            var argName = pair[0].split('--')[1];
-            if (argName) {
+            var argName;
+            if (pair[0].charAt(0) === '-') {
+                argName = pair[0].split('-').pop();
                 a[argName] = pair[1] || true;
+
+            } else {
+                a._.push(pair[0]);
             }
         });
 
