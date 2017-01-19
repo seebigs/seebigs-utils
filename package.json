@@ -4,7 +4,7 @@
   "description": "Essential utils for Node.js projects",
   "main": "index.js",
   "scripts": {
-    "test": "node ./test/automated"
+    "test": "node test/automated"
   },
   "repository": {
     "type": "git",

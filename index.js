@@ -15,9 +15,11 @@ module.exports = (function () {
     function args () {
         var a = { _: [] };
         var rawArgs = process.argv.slice(2);
-        var npmConfigArgs = process.env.npm_config_argv;
-        if (npmConfigArgs) {
-            rawArgs = rawArgs.concat(JSON.parse(npmConfigArgs).original);
+        var npmConfigArgv = process.env.npm_config_argv;
+        if (npmConfigArgv) {
+            var npmArgs = JSON.parse(npmConfigArgv).original;
+            npmArgs.shift(); // first arg is always the command to be run, not an arg
+            rawArgs = rawArgs.concat(npmArgs);
         }
 
         rawArgs.forEach(function (raw) {
