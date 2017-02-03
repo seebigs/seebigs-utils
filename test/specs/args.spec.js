@@ -10,15 +10,11 @@ describe('args', function() {
         process.argv.push('--foo');
         process.argv.push('--bar=123');
 
-        process.env.npm_config_argv = '{"original":["ignored","test","-more","--better=stuff"]}';
-
         expect(utils.args()).toBe({
-            _: [ 'addtl', 'test' ],
+            _: [ 'addtl' ],
             a: true,
             foo: true,
-            bar: '123',
-            more: true,
-            better: 'stuff'
+            bar: '123'
         });
     });
 

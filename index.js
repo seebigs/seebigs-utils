@@ -12,22 +12,21 @@ module.exports = (function () {
 
     var hasProp = Object.prototype.hasOwnProperty;
 
+    /**
+     * To pass args from npm:
+     *     `npm run scriptname -- one two --flag --opt=active`
+     */
     function args () {
         var a = { _: [] };
-        var rawArgs = process.argv.slice(2);
-        var npmConfigArgv = process.env.npm_config_argv;
-        if (npmConfigArgv) {
-            var npmArgs = JSON.parse(npmConfigArgv).original;
-            npmArgs.shift(); // first arg is always the command to be run, not an arg
-            rawArgs = rawArgs.concat(npmArgs);
-        }
 
-        rawArgs.forEach(function (raw) {
+        process.argv.slice(2).forEach(function (raw) {
             var pair = raw.split('=');
             var argName;
             if (pair[0].charAt(0) === '-') {
                 argName = pair[0].split('-').pop();
-                a[argName] = pair[1] || true;
+                if (argName) {
+                    a[argName] = pair[1] || true;
+                }
 
             } else {
                 a._.push(pair[0]);
