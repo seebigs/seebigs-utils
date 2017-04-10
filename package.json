@@ -1,6 +1,6 @@
 {
   "name": "seebigs-utils",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Essential utils for Node.js projects",
   "main": "index.js",
   "scripts": {
