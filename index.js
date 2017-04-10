@@ -22,8 +22,14 @@ module.exports = (function () {
         process.argv.slice(2).forEach(function (raw) {
             var pair = raw.split('=');
             var argName;
-            if (pair[0].charAt(0) === '-') {
-                argName = pair[0].split('-').pop();
+            if (pair[0].indexOf('--') === 0) {
+                argName = pair[0].substr(2);
+                if (argName) {
+                    a[argName] = pair[1] || true;
+                }
+
+            } else if (pair[0].charAt(0) === '-') {
+                argName = pair[0].substr(1);
                 if (argName) {
                     a[argName] = pair[1] || true;
                 }
